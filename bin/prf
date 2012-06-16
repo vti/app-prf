@@ -1,0 +1,21 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use Getopt::Long;
+use Pod::Usage;
+
+use App::PRF;
+
+my $help;
+
+GetOptions(
+    "help|?"  => \$help
+) or pod2usage(2);
+
+pod2usage(1) if $help || !@ARGV;
+
+my $prf = App::PRF->new;
+
+$prf->run(@ARGV);
