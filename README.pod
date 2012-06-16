@@ -1,0 +1,15 @@
+=pod
+
+=head1 NAME
+
+prf - Perl refactoring toolkit
+
+=head2 Rename a module
+
+Move the package removing left empty directories, rename the package, find and
+replace all occurencies of this module (including inheritance via C<base> and
+C<parent>, C<use> and method invokations).
+
+    prf rename_module Foo::Bar::Baz Hi::There
+
+=cut
