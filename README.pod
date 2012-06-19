@@ -189,7 +189,7 @@ C<parent>, C<use> and method invokations).
 
 Prints distribution dependencies.
 
-    prf list_desp /path/to/modules
+    prf list_deps /path/to/modules
 
     Core:
 
