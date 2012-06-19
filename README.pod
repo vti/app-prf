@@ -23,7 +23,7 @@ Prints class' information (package name, isa, methods, inherited methods etc).
 
 Prints classes with its parents.
 
-    prf class_list /path/to/modules
+    prf list_classes /path/to/modules
 
     HTTP::Message::PSGI < Exporter
     HTTP::Server::PSGI

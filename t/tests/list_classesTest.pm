@@ -1,4 +1,4 @@
-package class_listTest;
+package list_classesTest;
 
 use strict;
 use warnings;
@@ -12,7 +12,7 @@ use File::Path ();
 use File::Basename ();
 use File::Spec;
 
-use App::PRF::Command::class_list;
+use App::PRF::Command::list_classes;
 
 sub list_classes : Test {
     my $self = shift;
@@ -42,7 +42,7 @@ sub list_classes : Test {
 sub _build_command {
     my $self = shift;
 
-    return App::PRF::Command::class_list->new(color => 0, @_);
+    return App::PRF::Command::list_classes->new(color => 0, @_);
 }
 
 sub _slurp {
@@ -77,7 +77,7 @@ sub _create_root {
     my $self = shift;
 
     my $root =
-      File::Spec->catfile(File::Basename::dirname(__FILE__), '../class_list');
+      File::Spec->catfile(File::Basename::dirname(__FILE__), '../list_classes');
     $self->{root} = $root;
 
     if (-e $root) {

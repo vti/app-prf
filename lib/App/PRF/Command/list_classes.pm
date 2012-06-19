@@ -1,4 +1,4 @@
-package App::PRF::Command::class_list;
+package App::PRF::Command::list_classes;
 
 use strict;
 use warnings;
@@ -57,8 +57,7 @@ sub run {
             no strict;
             $packages{$package} = {isa => [@{"$package\::ISA"}]};
         } || do {
-
-            warn $@;
+            #warn $@;
         };
     }
 
