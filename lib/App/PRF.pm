@@ -5,6 +5,8 @@ use warnings;
 
 use base 'App::PRF::Base';
 
+our $VERSION = '0.01';
+
 sub run {
     my $self = shift;
     my ($command, @args) = @_;
