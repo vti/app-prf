@@ -185,4 +185,73 @@ C<parent>, C<use> and method invokations).
 
     prf rename_module Foo::Bar::Baz Hi::There
 
+=head2 List dependencies
+
+Prints distribution dependencies.
+
+    prf list_desp /path/to/modules
+
+    Core:
+
+    Carp
+    Cwd
+    Digest::MD5
+    DirHandle
+    File::Basename
+    File::Spec::Unix
+    FileHandle
+    Getopt::Long
+    IO::File
+    IO::Handle
+    IO::Socket::INET
+    List::Util
+    MIME::Base64
+    POSIX
+    Pod::Usage
+    Scalar::Util
+    Socket
+    Storable
+    Test::More
+    Time::HiRes
+    constant
+    overload
+
+    Non-Core:
+
+    APR::Table
+    Apache2::Const
+    Apache2::Log
+    Apache2::RequestIO
+    Apache2::RequestRec
+    Apache2::RequestUtil
+    Apache2::Response
+    Apache::Constants
+    Apache::Request
+    CGI::Compile
+    CGI::Emulate::PSGI
+    Devel::StackTrace
+    Devel::StackTrace::AsHTML
+    Devel::StackTrace::WithLexicals
+    FCGI
+    File::ShareDir
+    Filesys::Notify::Simple
+    HTTP::Body
+    HTTP::Date
+    HTTP::Headers
+    HTTP::Parser::XS
+    HTTP::Request
+    HTTP::Request::Common
+    HTTP::Response
+    HTTP::Status
+    Hash::MultiValue
+    IO::Socket::IP
+    IO::Socket::SSL
+    LWP::UserAgent
+    Log::Log4perl
+    Module::Refresh
+    Test::TCP
+    Try::Tiny
+    URI
+    URI::Escape
+
 =cut
