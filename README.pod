@@ -4,6 +4,20 @@
 
 prf - Perl refactoring toolkit
 
+=head2 Inspect class
+
+Prints class' information (package name, isa, methods, inherited methods etc).
+
+    prf inspect /path/to/modules Foo::Bar::Baz
+
+    Package:
+      Foo::Bar::Baz
+    Methods:
+      new (Main)
+      bar
+    Protected methods:
+      _hello
+
 =head2 List classes
 
 Prints classes with its parents.
