@@ -3,17 +3,16 @@ package App::PRF::Command::rename_module;
 use strict;
 use warnings;
 
+use base 'App::PRF::Command';
+
 use PPI;
 use File::Find     ();
 use File::Basename ();
 use File::Copy     ();
 use Cwd            ();
 
-sub new {
-    my $class = shift;
-
-    my $self = {@_};
-    bless $self, $class;
+sub BUILD {
+    my $self = shift;
 
     $self->{root} ||= './lib';
 
