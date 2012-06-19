@@ -55,22 +55,16 @@ sub _replace_module_occurencies {
         $self->{root}
     );
 
-    #use Data::Dumper; warn Dumper(\@files);
-
-    #@files = map { s/^$self->{root}\/?//; $_ } @files;
-
     foreach my $file (@files) {
         my $ppi = PPI::Document->new($file);
 
         my $package = $ppi->find_first('PPI::Statement::Package');
         next unless $package && $package->namespace;
 
-        # regular use and require
         my $includes = $ppi->find('Statement::Include') || [];
         for my $node (@$includes) {
             next if grep { $_ eq $node->module } qw{ lib };
 
-            # inheritance
             if (grep { $_ eq $node->module } qw{ base parent }) {
 
                 my @meat = grep {
