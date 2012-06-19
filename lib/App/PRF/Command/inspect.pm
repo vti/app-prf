@@ -144,7 +144,7 @@ sub _get_package_methods {
     my $methods = 
       $ppi
       ->find(sub { $_[1]->isa('PPI::Statement::Sub') and $_[1]->name });
-    push @result, map { $_->name } @$methods;
+    push @result, map { $_->name } @{$methods || []};
 
     return @result;
 }

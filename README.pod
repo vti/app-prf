@@ -8,15 +8,16 @@ prf - Perl refactoring toolkit
 
 Prints class' information (package name, isa, methods, inherited methods etc).
 
-    prf inspect /path/to/modules Foo::Bar::Baz
+    prf inspect /path/to/modules Plack::Middleware::Head
 
     Package:
-      Foo::Bar::Baz
+      Plack::Middleware::Head
+    ISA:
+      Plack::Middleware
     Methods:
-      new (Main)
-      bar
-    Protected methods:
-      _hello
+      import (Plack::Middleware)
+      wrap (Plack::Middleware)
+      call
 
 =head2 List classes
 
@@ -24,8 +25,78 @@ Prints classes with its parents.
 
     prf class_list /path/to/modules
 
-    Foo::Bar::Baz
-    Main < Foo::Bar::Baz
+    HTTP::Message::PSGI < Exporter
+    HTTP::Server::PSGI
+    Plack
+    Plack::App::Cascade < Plack::Component
+    Plack::App::Directory < Plack::Component
+    Plack::App::File < Plack::Component
+    Plack::App::PSGIBin < Plack::Component
+    Plack::App::URLMap < Plack::Component
+    Plack::App::WrapCGI < Plack::Component
+    Plack::Builder < Exporter
+    Plack::Component
+    Plack::HTTPParser < Exporter
+    Plack::HTTPParser::PP
+    Plack::Handler
+    Plack::Handler::CGI
+    Plack::Handler::HTTP::Server::PSGI < HTTP::Server::PSGI
+    Plack::Handler::HTTP::Server::Simple
+    Plack::Handler::Standalone < HTTP::Server::PSGI
+    Plack::Loader
+    Plack::Loader::Delayed < Plack::Loader
+    Plack::Loader::Restarter < Plack::Loader
+    Plack::Loader::Shotgun < Plack::Loader
+    Plack::MIME
+    Plack::Middleware < Plack::Component
+    Plack::Middleware::AccessLog < Plack::Component
+    Plack::Middleware::AccessLog::Timed < Plack::Component
+    Plack::Middleware::Auth::Basic < Plack::Component
+    Plack::Middleware::BufferedStreaming < Plack::Component
+    Plack::Middleware::Chunked < Plack::Component
+    Plack::Middleware::Conditional < Plack::Component
+    Plack::Middleware::ConditionalGET < Plack::Component
+    Plack::Middleware::ContentLength < Plack::Component
+    Plack::Middleware::ContentMD5 < Plack::Component
+    Plack::Middleware::ErrorDocument < Plack::Component
+    Plack::Middleware::HTTPExceptions < Plack::Component
+    Plack::Middleware::Head < Plack::Component
+    Plack::Middleware::IIS6ScriptNameFix < Plack::Component
+    Plack::Middleware::JSONP < Plack::Component
+    Plack::Middleware::LighttpdScriptNameFix < Plack::Component
+    Plack::Middleware::Lint < Plack::Component
+    Plack::Middleware::Log4perl < Plack::Component
+    Plack::Middleware::LogDispatch < Plack::Component
+    Plack::Middleware::NullLogger < Plack::Component
+    Plack::Middleware::RearrangeHeaders < Plack::Component
+    Plack::Middleware::Recursive < Plack::Component
+    Plack::Middleware::Refresh < Plack::Component
+    Plack::Middleware::Runtime < Plack::Component
+    Plack::Middleware::SimpleContentFilter < Plack::Component
+    Plack::Middleware::SimpleLogger < Plack::Component
+    Plack::Middleware::StackTrace < Plack::Component
+    Plack::Middleware::Static < Plack::Component
+    Plack::Middleware::XFramework < Plack::Component
+    Plack::Middleware::XSendfile < Plack::Component
+    Plack::Request
+    Plack::Request::Upload
+    Plack::Response
+    Plack::Runner
+    Plack::Server
+    Plack::Server::CGI < Plack::Handler::CGI
+    Plack::Server::ServerSimple < Plack::Handler::HTTP::Server::Simple
+    Plack::Server::Standalone < HTTP::Server::PSGI
+    Plack::Server::Standalone::Prefork < HTTP::Server::PSGI
+    Plack::TempBuffer
+    Plack::TempBuffer::Auto < Plack::TempBuffer
+    Plack::TempBuffer::File < Plack::TempBuffer
+    Plack::TempBuffer::PerlIO < Plack::TempBuffer
+    Plack::Test < Exporter
+    Plack::Test::MockHTTP
+    Plack::Test::Server
+    Plack::Test::Suite
+    Plack::Util
+    Plack::Util::Accessor
 
 =head2 ISA tree
 
@@ -33,8 +104,78 @@ Prints classes with its children.
 
     prf isa_tree /path/to/modules
 
-    Foo::Bar::Baz
-     + Main
+    HTTP::Message::PSGI
+    HTTP::Server::PSGI
+     + Plack::Handler::HTTP::Server::PSGI
+     +  + Plack::Handler::Standalone
+     +  +  + Plack::Server::Standalone
+     + Plack::Server::Standalone::Prefork
+    Plack
+    Plack::Builder
+    Plack::Component
+     + Plack::App::Cascade
+     + Plack::App::File
+     +  + Plack::App::Directory
+     +  + Plack::App::PSGIBin
+     + Plack::App::URLMap
+     + Plack::App::WrapCGI
+     + Plack::Middleware
+     +  + Plack::Middleware::AccessLog
+     +  +  + Plack::Middleware::AccessLog::Timed
+     +  + Plack::Middleware::Auth::Basic
+     +  + Plack::Middleware::BufferedStreaming
+     +  + Plack::Middleware::Chunked
+     +  + Plack::Middleware::Conditional
+     +  + Plack::Middleware::ConditionalGET
+     +  + Plack::Middleware::ContentLength
+     +  + Plack::Middleware::ContentMD5
+     +  + Plack::Middleware::ErrorDocument
+     +  + Plack::Middleware::HTTPExceptions
+     +  + Plack::Middleware::Head
+     +  + Plack::Middleware::IIS6ScriptNameFix
+     +  + Plack::Middleware::JSONP
+     +  + Plack::Middleware::LighttpdScriptNameFix
+     +  + Plack::Middleware::Lint
+     +  + Plack::Middleware::Log4perl
+     +  + Plack::Middleware::LogDispatch
+     +  + Plack::Middleware::NullLogger
+     +  + Plack::Middleware::RearrangeHeaders
+     +  + Plack::Middleware::Recursive
+     +  + Plack::Middleware::Refresh
+     +  + Plack::Middleware::Runtime
+     +  + Plack::Middleware::SimpleContentFilter
+     +  + Plack::Middleware::SimpleLogger
+     +  + Plack::Middleware::StackTrace
+     +  + Plack::Middleware::Static
+     +  + Plack::Middleware::XFramework
+     +  + Plack::Middleware::XSendfile
+    Plack::HTTPParser
+    Plack::HTTPParser::PP
+    Plack::Handler
+    Plack::Handler::CGI
+     + Plack::Server::CGI
+    Plack::Handler::HTTP::Server::Simple
+     + Plack::Server::ServerSimple
+    Plack::Loader
+     + Plack::Loader::Delayed
+     + Plack::Loader::Restarter
+     + Plack::Loader::Shotgun
+    Plack::MIME
+    Plack::Request
+    Plack::Request::Upload
+    Plack::Response
+    Plack::Runner
+    Plack::Server
+    Plack::TempBuffer
+     + Plack::TempBuffer::Auto
+     + Plack::TempBuffer::File
+     + Plack::TempBuffer::PerlIO
+    Plack::Test
+    Plack::Test::MockHTTP
+    Plack::Test::Server
+    Plack::Test::Suite
+    Plack::Util
+    Plack::Util::Accessor
 
 =head2 Rename a module
 
