@@ -5,11 +5,12 @@ use warnings;
 
 use base 'App::PRF::Command';
 
-use PPI;
-use File::Find     ();
+use Cwd            ();
 use File::Basename ();
 use File::Copy     ();
-use Cwd            ();
+use File::Find     ();
+use File::Path     ();
+use PPI;
 
 sub BUILD {
     my $self = shift;

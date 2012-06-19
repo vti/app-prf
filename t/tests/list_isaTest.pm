@@ -1,4 +1,4 @@
-package isa_treeTest;
+package list_isaTest;
 
 use strict;
 use warnings;
@@ -12,9 +12,9 @@ use File::Path ();
 use File::Basename ();
 use File::Spec;
 
-use App::PRF::Command::isa_tree;
+use App::PRF::Command::list_isa;
 
-sub isa_tree : Test {
+sub list_isa : Test {
     my $self = shift;
 
     my $command = $self->_build_command(root => $self->_create_root);
@@ -49,7 +49,7 @@ EOF
 sub _build_command {
     my $self = shift;
 
-    return App::PRF::Command::isa_tree->new(@_);
+    return App::PRF::Command::list_isa->new(@_);
 }
 
 sub _slurp {
@@ -84,7 +84,7 @@ sub _create_root {
     my $self = shift;
 
     my $root =
-      File::Spec->catfile(File::Basename::dirname(__FILE__), '../isa_tree');
+      File::Spec->catfile(File::Basename::dirname(__FILE__), '../list_isa');
     $self->{root} = $root;
 
     if (-e $root) {

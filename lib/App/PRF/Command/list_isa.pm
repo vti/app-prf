@@ -1,4 +1,4 @@
-package App::PRF::Command::isa_tree;
+package App::PRF::Command::list_isa;
 
 use strict;
 use warnings;

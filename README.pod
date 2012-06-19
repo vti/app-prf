@@ -102,7 +102,7 @@ Prints classes with its parents.
 
 Prints classes with its children.
 
-    prf isa_tree /path/to/modules
+    prf list_isa /path/to/modules
 
     HTTP::Message::PSGI
     HTTP::Server::PSGI
