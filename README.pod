@@ -13,6 +13,15 @@ Prints classes with its parents.
     Foo::Bar::Baz
     Main < Foo::Bar::Baz
 
+=head2 ISA tree
+
+Prints classes with its children.
+
+    prf isa_tree /path/to/modules
+
+    Foo::Bar::Baz
+     + Main
+
 =head2 Rename a module
 
 Move the package removing left empty directories, rename the package, find and
