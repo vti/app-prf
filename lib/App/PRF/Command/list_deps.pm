@@ -46,27 +46,28 @@ sub run {
         my $ppi = PPI::Document->new($file);
 
         my $package = $ppi->find_first('PPI::Statement::Package');
-        next unless $package && $package->namespace;
-        $package = $package->namespace;
 
-        $local_packages{$package}++;
+        if ($package && $package->namespace) {
+            $package = $package->namespace;
+
+            $local_packages{$package}++;
+        }
 
         my $includes = $ppi->find('Statement::Include') || [];
         for my $node (@$includes) {
             next if grep { $_ eq $node->module } qw{ lib };
 
             if (grep { $_ eq $node->module } qw{ base parent }) {
-
-                my @meat = grep {
+                my @parents = grep {
                          $_->isa('PPI::Token::QuoteLike::Words')
                       || $_->isa('PPI::Token::Quote')
                 } $node->arguments;
 
-                my @parents = @meat;
                 foreach my $token (@parents) {
                     if (   $token->isa('PPI::Token::QuoteLike::Words')
                         || $token->isa('PPI::Token::Number'))
                     {
+                        die 'here';
                     }
                     else {
                         next if $token->content =~ m/^base|parent$/;
@@ -74,7 +75,6 @@ sub run {
                         push @{$deps{$token->string}}, $package;
                     }
                 }
-                next;
             }
 
             next unless $node->module;
@@ -99,13 +99,13 @@ sub run {
     }
 
     print "Core:\n\n";
-    for (@core) {
+    for (sort @core) {
         print $_, "\n";
     }
     print "\n";
 
     print "Non-Core:\n\n";
-    for (@deps) {
+    for (sort @deps) {
         print $_, "\n";
     }
 }
