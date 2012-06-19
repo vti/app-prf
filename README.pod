@@ -4,6 +4,15 @@
 
 prf - Perl refactoring toolkit
 
+=head2 List classes
+
+Prints classes with its parents.
+
+    prf class_list /path/to/modules
+
+    Foo::Bar::Baz
+    Main < Foo::Bar::Baz
+
 =head2 Rename a module
 
 Move the package removing left empty directories, rename the package, find and
