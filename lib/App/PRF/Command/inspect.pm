@@ -9,6 +9,8 @@ use Class::Load ();
 use PPI;
 use File::Find ();
 
+use constant IS_IN_HELL => $^O eq 'MSWin32';
+
 sub BUILD {
     my $self = shift;
 
@@ -50,10 +52,10 @@ sub run {
         print "\n";
     }
 
-    my $GREEN  = $self->{color} ? "\e[0;32m" : '';
-    my $YELLOW = $self->{color} ? "\e[0;33m" : '';
-    my $PURPLE = $self->{color} ? "\e[0;35m" : '';
-    my $RESET  = $self->{color} ? "\e[0m"    : '';
+    my $GREEN  = !IS_IN_HELL && $self->{color} ? "\e[0;32m" : '';
+    my $YELLOW = !IS_IN_HELL && $self->{color} ? "\e[0;33m" : '';
+    my $PURPLE = !IS_IN_HELL && $self->{color} ? "\e[0;35m" : '';
+    my $RESET  = !IS_IN_HELL && $self->{color} ? "\e[0m"    : '';
 
     my @inherited_public_methods = $self->_get_inherited_public_methods($ppi, \@isa);
     my @public_methods = $self->_get_public_methods($ppi);

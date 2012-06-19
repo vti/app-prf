@@ -9,6 +9,8 @@ use Class::Load ();
 use PPI;
 use File::Find ();
 
+use constant IS_IN_HELL => $^O eq 'MSWin32';
+
 sub BUILD {
     my $self = shift;
 
@@ -66,7 +68,7 @@ sub run {
         my ($package) = @_;
 
         foreach my $isa (@{$packages{$package}->{isa}}) {
-            my $arrow = $self->{color} ? "\e[0;31m<\e[0m" : '<';
+            my $arrow = !IS_IN_HELL && $self->{color} ? "\e[0;31m<\e[0m" : '<';
             print " $arrow ", $isa;
             $isa_printer->($isa);
         }
