@@ -22,7 +22,9 @@ sub isa_tree : Test {
     $self->_mkdir('Foo/Bar');
     $self->_mkfile('Foo/Bar/Baz.pm', q/package Foo::Bar::Baz; sub new {} 1;/);
 
+    $self->_mkfile('One.pm', q/package One; sub new {} 1;/);
     $self->_mkfile('Main.pm', q/package Main; use base 'Foo::Bar::Baz'; sub new {} 1;/);
+    $self->_mkfile('Main2.pm', q/package Main2; use parent qw(Foo::Bar::Baz); sub new {} 1;/);
 
     my $output = '';
 
@@ -36,7 +38,12 @@ sub isa_tree : Test {
     open STDOUT, ">&", $stdout;
     close $stdout;
 
-    is($output, "Foo::Bar::Baz\n + Main\n");
+    is($output, <<'EOF');
+Foo::Bar::Baz
+ + Main
+ + Main2
+One
+EOF
 }
 
 sub _build_command {
