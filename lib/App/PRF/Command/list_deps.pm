@@ -22,7 +22,7 @@ sub BUILD {
 
 sub run {
     my $self = shift;
-    my ($root) = @_;
+    my ($options, $root) = @_;
 
     $root ||= $self->{root};
 

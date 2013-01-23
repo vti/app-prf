@@ -22,7 +22,7 @@ sub BUILD {
 
 sub run {
     my $self = shift;
-    my ($from, $to) = @_;
+    my ($options, $from, $to) = @_;
 
     my $from_path = $self->_class_to_path($from);
     my $to_path   = $self->_class_to_path($to);

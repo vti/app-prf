@@ -24,7 +24,7 @@ sub move_module : Test {
 
     $self->_mkfile('Main.pm', '');
 
-    $command->run('Foo::Bar::Baz', 'Hi::There');
+    $command->run({}, 'Foo::Bar::Baz', 'Hi::There');
 
     ok(-f File::Spec->catfile($self->{root}, 'Hi/There.pm'));
 }
@@ -39,7 +39,7 @@ sub clear_empty_directory : Test {
 
     $self->_mkfile('Main.pm', '');
 
-    $command->run('Foo::Bar::Baz', 'Hi::There');
+    $command->run({}, 'Foo::Bar::Baz', 'Hi::There');
 
     ok(!-e File::Spec->catfile($self->{root}, 'Foo'));
 }
@@ -54,7 +54,7 @@ sub replace_the_package_name : Test {
 
     $self->_mkfile('Main.pm', '');
 
-    $command->run('Foo::Bar::Baz', 'Hi::There');
+    $command->run({}, 'Foo::Bar::Baz', 'Hi::There');
 
     is($self->_slurp('Hi/There.pm'), 'package Hi::There; 1;');
 }
@@ -69,7 +69,7 @@ sub replace_any_occurencies : Test {
 
     $self->_mkfile('Main.pm', q{package Main; use base 'Foo::Bar::Baz'; use Foo::Bar::Baz; Foo::Bar::Baz->do(); 1;});
 
-    $command->run('Foo::Bar::Baz', 'Hi::There');
+    $command->run({}, 'Foo::Bar::Baz', 'Hi::There');
 
     is($self->_slurp('Main.pm'), q{package Main; use base 'Hi::There'; use Hi::There; Hi::There->do(); 1;});
 }

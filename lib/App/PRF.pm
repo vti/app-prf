@@ -9,11 +9,11 @@ our $VERSION = '0.01';
 
 sub run {
     my $self = shift;
-    my ($command, @args) = @_;
+    my ($options, $command, @args) = @_;
 
     $command = $self->_build_command($command);
 
-    $command->run(@args);
+    $command->run($options, @args);
 }
 
 sub _build_command {

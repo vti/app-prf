@@ -21,7 +21,7 @@ sub BUILD {
 
 sub run {
     my $self = shift;
-    my ($root) = @_;
+    my ($options, $root) = @_;
 
     $root ||= $self->{root};
     $root = File::Spec->rel2abs($root);
@@ -44,6 +44,12 @@ sub run {
     my %packages;
 
     unshift @INC, $root;
+    if ($options->{include}) {
+        for my $include (@{$options->{include}}) {
+            unshift @INC, $include;
+        }
+    }
+
     foreach my $file (@files) {
         my $ppi = PPI::Document->new($file, readonly => 1);
 
@@ -56,7 +62,7 @@ sub run {
 
             $packages{$package} ||= {};
         } || do {
-            #warn $@;
+            die "Error while processing '$file': $@";
         };
     }
 
