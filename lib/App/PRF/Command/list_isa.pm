@@ -70,8 +70,6 @@ sub run {
         my ($package) = @_;
 
         foreach my $isa (@{$packages{$package}->{isa}}) {
-            next unless exists $packages{$isa};
-
             push @{$packages{$isa}->{children}}, $package
               unless grep { $_ eq $package } @{$packages{$isa}->{children}};
 
