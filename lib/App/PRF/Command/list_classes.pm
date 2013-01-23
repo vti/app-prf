@@ -5,9 +5,9 @@ use warnings;
 
 use base 'App::PRF::Command';
 
-use Class::Load ();
 use PPI;
-use File::Find ();
+use App::PRF::Finder;
+use App::PRF::PPI::ExtractISA;
 
 use constant IS_IN_HELL => $^O eq 'MSWin32';
 
@@ -16,36 +16,17 @@ sub BUILD {
 
     $self->{color} = 1 unless defined $self->{color};
 
-    $self->{root} ||= './lib';
-
     return $self;
 }
 
 sub run {
     my $self = shift;
-    my ($root) = @_;
+    my (@paths) = @_;
 
-    $root ||= $self->{root};
-    $root = File::Spec->rel2abs($root);
-
-    die "Can't open '$root': $!\n" unless -d $root;
-
-    my @files;
-    File::Find::find(
-        {   wanted => sub {
-                return unless /\.p(m|l)$/;
-
-                push @files, $_;
-            },
-            no_chdir => 1,
-            follow   => 0
-        },
-        $root
-    );
+    my @files = $self->_find_files(@paths);
 
     my %packages;
 
-    unshift @INC, $root;
     foreach my $file (@files) {
         my $ppi = PPI::Document->new($file, readonly => 1);
 
@@ -53,14 +34,9 @@ sub run {
         next unless $package && $package->namespace;
         $package = $package->namespace;
 
-        eval {
-            Class::Load::load_class($package);
+        my @isa = App::PRF::PPI::ExtractISA->new->extract($ppi);
 
-            no strict;
-            $packages{$package} = {isa => [@{"$package\::ISA"}]};
-        } || do {
-            #warn $@;
-        };
+        $packages{$package} = {isa => [@isa]};
     }
 
     my $isa_printer;
@@ -80,6 +56,13 @@ sub run {
         $isa_printer->($package);
         print "\n";
     }
+}
+
+sub _find_files {
+    my $self = shift;
+    my (@paths) = @_;
+
+    return App::PRF::Finder->new->find(@paths);
 }
 
 1;
