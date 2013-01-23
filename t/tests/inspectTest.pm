@@ -30,7 +30,7 @@ sub inspect : Test {
     close STDOUT;
     open STDOUT, '>', \$output or die "Failed to capture stdout: $!";
 
-    $command->run({}, $self->{root}, 'Foo::Bar::Baz');
+    $command->run($self->{root}, 'Foo::Bar::Baz');
 
     close STDOUT;
     open STDOUT, ">&", $stdout;

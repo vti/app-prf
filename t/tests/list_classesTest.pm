@@ -30,7 +30,7 @@ sub list_classes : Test {
     close STDOUT;
     open STDOUT, '>', \$output or die "Failed to capture stdout: $!";
 
-    $command->run({}, $self->{root});
+    $command->run($self->{root});
 
     close STDOUT;
     open STDOUT, ">&", $stdout;

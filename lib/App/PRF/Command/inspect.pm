@@ -19,7 +19,7 @@ sub BUILD {
 
 sub run {
     my $self = shift;
-    my ($options, $root, $class) = @_;
+    my ($root, $class) = @_;
 
     die "Can't open '$root': $!\n" unless -d $root;
 

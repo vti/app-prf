@@ -9,18 +9,13 @@ use Pod::Usage;
 use App::PRF;
 
 my $help;
-my @include;
 
 GetOptions(
     "help|?"      => \$help,
-    "I|include=s" => \@include
 ) or pod2usage(2);
 
 pod2usage(1) if $help || !@ARGV;
 
 my $prf = App::PRF->new;
 
-@include = split(/,/, join(',', @include)) if @include;
-my $options = {include => \@include};
-
-$prf->run($options, @ARGV);
+$prf->run(@ARGV);

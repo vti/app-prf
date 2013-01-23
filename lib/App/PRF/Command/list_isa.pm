@@ -20,34 +20,13 @@ sub BUILD {
 
 sub run {
     my $self = shift;
-    my ($options, $root) = @_;
+    my (@paths) = @_;
 
-    $root ||= $self->{root};
-    $root = File::Spec->rel2abs($root);
+    @paths = ('./lib') unless @paths;
 
-    die "Can't open '$root': $!\n" unless -d $root;
-
-    my @files;
-    File::Find::find(
-        {   wanted => sub {
-                return unless /\.p(m|l)$/;
-
-                push @files, $_;
-            },
-            no_chdir => 1,
-            follow   => 0
-        },
-        $root
-    );
+    my @files = $self->_find_files(@paths);
 
     my %packages;
-
-    unshift @INC, $root;
-    if ($options->{include}) {
-        for my $include (@{$options->{include}}) {
-            unshift @INC, $include;
-        }
-    }
 
     foreach my $file (@files) {
         my $ppi = PPI::Document->new($file, readonly => 1);
@@ -138,6 +117,36 @@ sub run {
 
         $child_walker->($root, 2);
     }
+}
+
+sub _find_files {
+    my $self = shift;
+    my (@paths) = @_;
+
+    my @files;
+
+    for my $path (@paths) {
+        if (-f $path) {
+            push @files, $path;
+            next;
+        }
+
+        die "Can't open '$path': $!\n" unless -d $path;
+
+        File::Find::find(
+            {   wanted => sub {
+                    return unless /\.p(m|l)$/;
+
+                    push @files, $_;
+                },
+                no_chdir => 1,
+                follow   => 0
+            },
+            $path
+        );
+    }
+
+    return @files;
 }
 
 1;

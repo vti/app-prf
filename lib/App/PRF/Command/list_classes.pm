@@ -23,7 +23,7 @@ sub BUILD {
 
 sub run {
     my $self = shift;
-    my ($options, $root) = @_;
+    my ($root) = @_;
 
     $root ||= $self->{root};
     $root = File::Spec->rel2abs($root);
