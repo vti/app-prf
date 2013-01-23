@@ -5,7 +5,6 @@ use warnings;
 
 use base 'App::PRF::Command';
 
-use Class::Load ();
 use PPI;
 use File::Find ();
 
@@ -57,20 +56,34 @@ sub run {
         next unless $package && $package->namespace;
         $package = $package->namespace;
 
-        eval {
-            Class::Load::load_class($package);
+        my @isa;
+        my $includes = $ppi->find('Statement::Include') || [];
+        for my $node (@$includes) {
+            next if grep { $_ eq $node->module } qw{ lib };
 
-            $packages{$package} ||= {};
-        } || do {
-            die "Error while processing '$file': $@";
-        };
-    }
+            if (grep { $_ eq $node->module } qw{ base parent }) {
 
-    foreach my $package (keys %packages) {
-        no strict;
-        my @isa = grep {exists $packages{$_}} @{"$package\::ISA"};
+                my @meat = grep {
+                         $_->isa('PPI::Token::QuoteLike::Words')
+                      || $_->isa('PPI::Token::Quote')
+                } $node->arguments;
 
-        $packages{$package} = {isa => [@isa]};
+                foreach my $token (@meat) {
+                    if (   $token->isa('PPI::Token::QuoteLike::Words')
+                        || $token->isa('PPI::Token::Number'))
+                    {
+                        push @isa, $token->literal;
+                    }
+                    else {
+                        next if $token->content =~ m/^base|parent$/;
+                        push @isa, $token->string;
+                    }
+                }
+                next;
+            }
+        }
+
+        $packages{$package} ||= {isa => [@isa]};
     }
 
     my $isa_walker;
@@ -78,6 +91,8 @@ sub run {
         my ($package) = @_;
 
         foreach my $isa (@{$packages{$package}->{isa}}) {
+            next unless exists $packages{$isa};
+
             push @{$packages{$isa}->{children}}, $package
               unless grep { $_ eq $package } @{$packages{$isa}->{children}};
 
